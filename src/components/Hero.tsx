@@ -2,9 +2,24 @@
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function Hero() {
   const [animateHand, setAnimateHand] = useState(false);
+  const navigate = useNavigate();
+  
+  const handleStartChatting = () => {
+    // Navigate to the chat interface or set chat open state
+    navigate("/chat");
+  };
+  
+  const handleExploreFeatures = () => {
+    // Scroll to the features section
+    const featuresSection = document.getElementById("features-section");
+    if (featuresSection) {
+      featuresSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   
   return (
     <div className="relative overflow-hidden pt-16 pb-8 md:py-10 lg:py-16">
@@ -31,12 +46,19 @@ export function Hero() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 w-full justify-center max-w-md mx-auto">
-            <Button className="bg-aadi-primary hover:bg-aadi-primary/90 text-white rounded-full px-8 py-6 text-lg flex items-center gap-2 group">
+            <Button 
+              className="bg-aadi-primary hover:bg-aadi-primary/90 text-white rounded-full px-8 py-6 text-lg flex items-center gap-2 group"
+              onClick={handleStartChatting}
+            >
               Start Chatting
               <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
             </Button>
             
-            <Button variant="outline" className="border-aadi-secondary text-aadi-secondary hover:bg-aadi-secondary/10 rounded-full px-8 py-6 text-lg flex items-center gap-2">
+            <Button 
+              variant="outline" 
+              className="border-aadi-secondary text-aadi-secondary hover:bg-aadi-secondary/10 rounded-full px-8 py-6 text-lg flex items-center gap-2"
+              onClick={handleExploreFeatures}
+            >
               <Sparkles className="w-5 h-5" />
               Explore Features
             </Button>

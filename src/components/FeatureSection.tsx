@@ -1,107 +1,67 @@
-
-import { 
-  BrainCircuit, BookOpen, Video, Briefcase, FileType, 
-  ImageIcon, Calendar, Sparkles, Cloud, Shirt, BookOpen as Book
-} from "lucide-react";
-
-interface FeatureCardProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-}
-
-function FeatureCard({ icon, title, description }: FeatureCardProps) {
-  return (
-    <div className="feature-card">
-      <div className="feature-icon">{icon}</div>
-      <h3 className="text-lg font-semibold mb-2">{title}</h3>
-      <p className="text-gray-600 dark:text-gray-300 text-sm">{description}</p>
-    </div>
-  );
-}
+import React from "react";
+import { BookOpen, Brain, FileText, Globe, Headphones, MessageSquare } from "lucide-react";
 
 export function FeatureSection() {
-  const features = [
-    {
-      icon: <BrainCircuit className="w-8 h-8" />,
-      title: "Universal Knowledge",
-      description: "Get answers from Google, YouTube, ChatGPT, Wikipedia, and more in one place."
-    },
-    {
-      icon: <BookOpen className="w-8 h-8" />,
-      title: "Academic Assistant",
-      description: "Generate comprehensive notes for any subject from Class 1-12 and beyond."
-    },
-    {
-      icon: <Video className="w-8 h-8" />,
-      title: "Text to Video",
-      description: "Convert text into high-quality video with Indian English/Hindi voice."
-    },
-    {
-      icon: <Briefcase className="w-8 h-8" />,
-      title: "Career Support",
-      description: "Get help with job searching, resume building, and finding internships."
-    },
-    {
-      icon: <FileType className="w-8 h-8" />,
-      title: "Document Generator",
-      description: "Create PDF notes, PPT presentations, and Word reports from a single prompt."
-    },
-    {
-      icon: <ImageIcon className="w-8 h-8" />,
-      title: "Image Recognition",
-      description: "Analyze and describe any uploaded image with detailed object detection."
-    },
-    {
-      icon: <Calendar className="w-8 h-8" />,
-      title: "Daily Companion",
-      description: "Track to-dos, set alarms, and get personalized habit suggestions."
-    },
-    {
-      icon: <Sparkles className="w-8 h-8" />,
-      title: "Spiritual Guide",
-      description: "Receive guidance for puja practices and wisdom from Bhagavad Gita."
-    },
-    {
-      icon: <Cloud className="w-8 h-8" />,
-      title: "Weather & News",
-      description: "Get real-time weather updates and location-based news alerts."
-    },
-    {
-      icon: <Shirt className="w-8 h-8" />,
-      title: "Fashion Advisor",
-      description: "Receive personalized clothing and style recommendations."
-    },
-    {
-      icon: <Book className="w-8 h-8" />,
-      title: "Life Wisdom",
-      description: "Access relevant life advice for any age and situation."
-    }
-  ];
-
   return (
-    <div className="py-12 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
-      <div className="container px-4 mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4 text-aadi-dark dark:text-white">
-            Your All-in-One <span className="text-aadi-primary">AI Saathi</span>
-          </h2>
-          <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Aadi combines the power of multiple AI systems to provide comprehensive assistance for every aspect of your life.
-          </p>
-        </div>
-        
+    <section id="features-section" className="py-16 bg-gray-50 dark:bg-gray-900">
+      <div className="container mx-auto px-4">
+        <h2 className="text-3xl font-bold text-center mb-8">Explore Aadi's Features</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature, index) => (
-            <FeatureCard
-              key={index}
-              icon={feature.icon}
-              title={feature.title}
-              description={feature.description}
-            />
-          ))}
+          {/* Feature Card 1 */}
+          <div className="feature-card">
+            <BookOpen className="feature-icon" />
+            <h3 className="text-xl font-semibold mb-2">Academic Assistance</h3>
+            <p className="text-gray-600 dark:text-gray-400">
+              Get help with homework, research, and studying for exams. Aadi can provide explanations, summaries, and practice questions.
+            </p>
+          </div>
+
+          {/* Feature Card 2 */}
+          <div className="feature-card">
+            <Brain className="feature-icon" />
+            <h3 className="text-xl font-semibold mb-2">Intelligent Answers</h3>
+            <p className="text-gray-600 dark:text-gray-400">
+              Ask Aadi any question and receive accurate, concise answers. Aadi is trained on a vast amount of knowledge and can provide insights on a wide range of topics.
+            </p>
+          </div>
+
+          {/* Feature Card 3 */}
+          <div className="feature-card">
+            <FileText className="feature-icon" />
+            <h3 className="text-xl font-semibold mb-2">Content Generation</h3>
+            <p className="text-gray-600 dark:text-gray-400">
+              Generate high-quality content for essays, reports, presentations, and more. Aadi can help you brainstorm ideas, write outlines, and create compelling narratives.
+            </p>
+          </div>
+
+          {/* Feature Card 4 */}
+          <div className="feature-card">
+            <Globe className="feature-icon" />
+            <h3 className="text-xl font-semibold mb-2">Multilingual Support</h3>
+            <p className="text-gray-600 dark:text-gray-400">
+              Communicate with Aadi in multiple languages. Aadi can translate text, provide answers in different languages, and help you learn new languages.
+            </p>
+          </div>
+
+          {/* Feature Card 5 */}
+          <div className="feature-card">
+            <Headphones className="feature-icon" />
+            <h3 className="text-xl font-semibold mb-2">Personalized Learning</h3>
+            <p className="text-gray-600 dark:text-gray-400">
+              Customize Aadi's responses to match your learning style and preferences. Aadi can adapt to your needs and provide personalized support.
+            </p>
+          </div>
+
+          {/* Feature Card 6 */}
+          <div className="feature-card">
+            <MessageSquare className="feature-icon" />
+            <h3 className="text-xl font-semibold mb-2">24/7 Availability</h3>
+            <p className="text-gray-600 dark:text-gray-400">
+              Access Aadi anytime, anywhere. Aadi is available 24/7 to answer your questions and provide assistance whenever you need it.
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

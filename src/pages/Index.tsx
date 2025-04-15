@@ -1,5 +1,6 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AadiHeader } from "@/components/AadiHeader";
 import { Hero } from "@/components/Hero";
 import { FeatureSection } from "@/components/FeatureSection";
@@ -10,6 +11,15 @@ import { MessageSquareText, X } from "lucide-react";
 
 const Index = () => {
   const [chatOpen, setChatOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  
+  // Check if we're on the /chat route
+  useEffect(() => {
+    if (location.pathname === "/chat") {
+      setChatOpen(true);
+    }
+  }, [location.pathname]);
   
   // For landing page view
   const LandingPageContent = () => (
@@ -31,6 +41,11 @@ const Index = () => {
     </div>
   );
   
+  const handleCloseChatInterface = () => {
+    setChatOpen(false);
+    navigate("/");
+  };
+  
   return (
     <>
       {chatOpen ? (
@@ -40,7 +55,10 @@ const Index = () => {
           <LandingPageContent />
           <div className="fixed bottom-6 right-6 z-20">
             <Button 
-              onClick={() => setChatOpen(true)}
+              onClick={() => {
+                setChatOpen(true);
+                navigate("/chat");
+              }}
               className="bg-aadi-primary hover:bg-aadi-primary/90 h-14 w-14 rounded-full shadow-lg"
             >
               <MessageSquareText className="h-6 w-6" />
@@ -52,7 +70,7 @@ const Index = () => {
       {chatOpen && (
         <div className="md:hidden fixed top-20 right-4 z-20">
           <Button 
-            onClick={() => setChatOpen(false)}
+            onClick={handleCloseChatInterface}
             variant="outline"
             className="h-10 w-10 rounded-full border-gray-300"
           >
