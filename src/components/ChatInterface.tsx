@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from "react";
 import { SendHorizonal, Mic, Image, Paperclip, SquareUser, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
