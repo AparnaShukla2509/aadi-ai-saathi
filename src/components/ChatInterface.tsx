@@ -1,29 +1,14 @@
-
 import { useState, useRef, useEffect } from "react";
 import { SendHorizonal, Mic, Image, Paperclip, SquareUser, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar } from "@/components/ui/avatar";
 import { useToast } from "@/components/ui/use-toast";
-
-interface Message {
-  id: number;
-  content: string;
-  sender: "user" | "ai";
-  timestamp: Date;
-}
+import { useChatState } from "@/hooks/useChatState";
 
 export function ChatInterface() {
+  const { messages, isLoading, addMessage, generateAIResponse } = useChatState();
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: 1,
-      content: "नमस्ते! I'm Aadi, your AI Saathi. How can I assist you today?",
-      sender: "ai",
-      timestamp: new Date(),
-    },
-  ]);
-  const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
@@ -35,41 +20,18 @@ export function ChatInterface() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleSubmit = (e?: React.FormEvent) => {
+  const handleSubmit = async (e?: React.FormEvent) => {
     e?.preventDefault();
-    if (!input.trim()) return;
+    if (!input.trim() || isLoading) return;
 
-    // Add user message
-    const userMessage: Message = {
-      id: messages.length + 1,
-      content: input,
-      sender: "user",
-      timestamp: new Date(),
-    };
-    setMessages([...messages, userMessage]);
+    const userMessage = input.trim();
     setInput("");
-    setIsLoading(true);
-
-    // Simulate AI response (in a real app, this would be an API call)
-    setTimeout(() => {
-      const sampleResponses = [
-        "I understand your question. Let me provide a helpful response based on my knowledge.",
-        "That's an interesting query! Here's what I know about this topic...",
-        "मैं आपकी सहायता करने के लिए तैयार हूँ। आपके प्रश्न का उत्तर यह है...",
-        "I can help you with that! Would you like me to create some notes or provide more detailed information?",
-        "Great question! This is a complex topic, so let me break it down step by step...",
-      ];
-      
-      const aiMessage: Message = {
-        id: messages.length + 2,
-        content: sampleResponses[Math.floor(Math.random() * sampleResponses.length)],
-        sender: "ai",
-        timestamp: new Date(),
-      };
-      
-      setMessages((prev) => [...prev, aiMessage]);
-      setIsLoading(false);
-    }, 1500);
+    
+    // Add user message
+    addMessage(userMessage, "user");
+    
+    // Generate AI response
+    await generateAIResponse(userMessage);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
