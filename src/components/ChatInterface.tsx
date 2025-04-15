@@ -1,6 +1,6 @@
 
 import { useState, useRef, useEffect } from "react";
-import { SendHorizonal, Mic, Image, PaperclipHorizontal, SquareUser, Loader2 } from "lucide-react";
+import { SendHorizonal, Mic, Image, Paperclip, SquareUser, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar } from "@/components/ui/avatar";
@@ -192,7 +192,7 @@ export function ChatInterface() {
                 onClick={handleAttachment}
                 className="rounded-full"
               >
-                <PaperclipHorizontal className="h-4 w-4" />
+                <Paperclip className="h-4 w-4" />
               </Button>
             </div>
             <Button
