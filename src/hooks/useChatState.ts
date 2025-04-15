@@ -22,7 +22,7 @@ export const useChatState = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      content: "नमस्ते! I'm Aadi, your AI Saathi. How can I assist you today?",
+      content: "नमस्ते! I'm Aadi, your AI Saathi. I'm here to help answer any questions you have. What would you like to know?",
       sender: "ai",
       timestamp: new Date(),
       context: "greeting",
@@ -62,30 +62,34 @@ export const useChatState = () => {
   const generateAIResponse = async (userMessage: string) => {
     setIsLoading(true);
     
-    // Simulate AI response with context awareness
-    const contextAwareResponses = [
-      {
-        condition: context.currentTopic === "greeting",
-        response: "Hello! I remember we were just getting started. What can I help you with?",
-      },
-      {
-        condition: context.previousTopics.includes("technical"),
-        response: "Based on our previous technical discussion, let me provide a detailed answer...",
-      },
-      {
-        condition: context.userPreferences.language === "hindi",
-        response: "मैं आपकी सहायता करने के लिए तैयार हूँ। आपके पिछले सवाल के आधार पर...",
-      },
-    ];
+    try {
+      // Simulate AI processing time
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    // Simulate processing delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    const defaultResponse = "I understand your question. Let me help you with that based on our conversation...";
-    const response = contextAwareResponses.find((r) => r.condition)?.response || defaultResponse;
-    
-    addMessage(response, "ai", context.currentTopic);
-    setIsLoading(false);
+      // Simple response generation based on user input
+      let response = '';
+      
+      if (userMessage.toLowerCase().includes('hello') || userMessage.toLowerCase().includes('hi')) {
+        response = "Hello! How can I assist you today?";
+      } else if (userMessage.toLowerCase().includes('how are you')) {
+        response = "I'm doing well, thank you! How can I help you?";
+      } else if (userMessage.toLowerCase().includes('weather')) {
+        response = "I notice you're asking about weather. For real-time weather information, we'll need to connect to a weather API. Would you like me to explain how we can set that up?";
+      } else if (userMessage.toLowerCase().includes('help')) {
+        response = "I'm here to help! I can assist with various topics. What specific information are you looking for?";
+      } else if (userMessage.toLowerCase().includes('thank')) {
+        response = "You're welcome! Let me know if you need anything else.";
+      } else {
+        // Default response encouraging Supabase integration
+        response = "I understand you're looking for accurate information about this topic. To provide you with the most accurate and up-to-date answers, we should connect to Supabase and integrate with an AI service. Would you like to know how to set that up?";
+      }
+      
+      addMessage(response, "ai", "response");
+    } catch (error) {
+      addMessage("I apologize, but I encountered an error processing your request. Please try again.", "ai", "error");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return {
