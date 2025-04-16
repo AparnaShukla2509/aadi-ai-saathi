@@ -27,7 +27,7 @@ export const useChatState = () => {
       context: "greeting",
     },
   ]);
-  
+
   const [context, setContext] = useState<ChatContext>({
     previousTopics: [],
     userPreferences: {
@@ -46,13 +46,13 @@ export const useChatState = () => {
       timestamp: new Date(),
       context: messageContext,
     };
-    
+
     setMessages((prev) => [...prev, newMessage]);
-    
+
     if (messageContext) {
       setContext((prev) => ({
         ...prev,
-        previousTopics: [...prev.previousTopics, messageContext].slice(-5),
+        previousTopics: [...new Set([...(prev.previousTopics || []), messageContext])].slice(-5),
         currentTopic: messageContext,
       }));
     }
@@ -60,155 +60,117 @@ export const useChatState = () => {
 
   const generateAIResponse = async (userMessage: string) => {
     setIsLoading(true);
-    
-    try {
-      // Simulate AI processing time
-      await new Promise((resolve) => setTimeout(resolve, 1000));
 
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       let response = '';
       const lowerMessage = userMessage.toLowerCase();
-      
-      // Demo-specific responses
+
+      // === Demos ===
       if (lowerMessage.includes('demo')) {
         if (lowerMessage.includes('dataset')) {
-          response = `Here's a demo of our AI datasets feature:
+          // Input: "Show me a dataset demo"
+          response = `Dataset Demo:
+1. OpenAssistant/oasst1 – GPT-style, multi-turn, crowd-sourced
+2. DailyDialog – Casual conversation, emotion-labeled
 
-📊 Dataset Demo:
-Input: "List chat datasets"
-Output: 
-1. OpenAssistant/oasst1 (Best for GPT-like conversations)
-   - Multi-turn dialogues
-   - Instruction-tuned
-   - Crowd-sourced quality
+Want details on how to apply these in your AI project?`;
+        } else if (lowerMessage.includes('voice')) {
+          // Input: "Give me a voice input demo"
+          response = `Voice Demo:
+- Input: English, Hindi
+- STT Dataset: Mozilla Common Voice
+- TTS Dataset: LJSpeech
 
-2. DailyDialog (Alternative)
-   - Everyday conversation scenarios
-   - Emotional tone analysis
+Would you like to build a real-time voice interface?`;
+        } else if (lowerMessage.includes('emotion')) {
+          // Input: "Can you show me emotion recognition demo?"
+          response = `Emotion Recognition Demo:
+- Image-based: FER-2013, RAVDESS
+- Voice-based: RAVDESS
+Detects: Happy, Sad, Angry, Calm, Excited, Frustrated
 
-Would you like me to elaborate on how these datasets can be used in AI applications?`;
-        } 
-        else if (lowerMessage.includes('voice')) {
-          response = `🎙️ Voice Input/Output Demo:
-Input Languages: English, Hindi
-Best Datasets: 
-- Speech-to-Text: Common Voice (Mozilla)
-- Text-to-Speech: LJSpeech
-
-Sample Conversion:
-✅ English: "Hello, how are you?"
-📢 Hindi: "नमस्ते, आप कैसे हैं?"
-
-Accuracy: ~90% for clear pronunciations
-Supported Accents: Multiple Indian English and Hindi variants
-
-Would you like to explore voice AI integration techniques?`;
-        }
-        else if (lowerMessage.includes('emotion')) {
-          response = `😶‍🌫️ Emotion Recognition Demo:
-Supported Detection Methods:
-1. Facial Expression (Image)
-   Dataset: RAVDESS/FER-2013
-   Detectable Emotions: 
-   - Happy 😊
-   - Sad 😢
-   - Angry 😠
-   - Surprise 😮
-
-2. Voice Tone Analysis
-   Dataset: RAVDESS
-   Emotional States:
-   - Calm
-   - Excited
-   - Neutral
-   - Frustrated
-
-Example Input: [Hypothetical voice/image analysis]
-Accuracy: 85-92% depending on context
-
-Interested in emotion AI capabilities?`;
-        }
-        else {
-          response = "I can demonstrate demos for datasets, voice processing, or emotion recognition. Try asking about a specific demo type!";
-        }
-      }
-      // Physics education responses
-      else if (lowerMessage.includes('newton') || lowerMessage.includes('law') || lowerMessage.includes('motion')) {
-        response = `Of course! Here's a simple breakdown of Newton's three laws of motion:
-
-1. **First Law (Law of Inertia):**
-An object at rest stays at rest, and an object in motion stays in motion at a constant velocity, unless acted upon by an external force.
-*Example:* A soccer ball won't move until you kick it.
-
-2. **Second Law (F = ma):**
-The force acting on an object is equal to its mass times its acceleration.
-*Formula:* F = m × a
-*Example:* The harder you push a cart (more force), the faster it accelerates.
-
-3. **Third Law (Action–Reaction):**
-For every action, there is an equal and opposite reaction.
-*Example:* When you jump off a boat, the boat moves backward.
-
-Want a quiz or practice questions next?`;
-      }
-      // Quiz responses
-      else if (lowerMessage.includes('quiz') || lowerMessage.includes('question') || lowerMessage.includes('yes')) {
-        response = `Sure! Here are three multiple-choice questions:
-
-**1. Which of Newton's laws explains why passengers lurch forward in a car when it stops suddenly?**
-A) First Law
-B) Second Law
-C) Third Law
-D) Law of Gravity
-**Answer:** A) First Law
-
-**2. What does F = ma represent?**
-A) Force equals mass divided by acceleration
-B) Force equals motion times area
-C) Force equals mass times acceleration
-D) Friction equals motion minus area
-**Answer:** C) Force equals mass times acceleration
-
-**3. If a balloon is released and it flies around the room, which law is this an example of?**
-A) First Law
-B) Second Law
-C) Third Law
-D) Law of Momentum
-**Answer:** C) Third Law`;
-      }
-      // Topic-based responses
-      else if (lowerMessage.includes('dataset') || lowerMessage.includes('data')) {
-        response = "I see you're interested in AI datasets. You can view our recommended datasets in the sidebar by clicking on 'AI Datasets'. Would you like me to explain more about a specific type of dataset?";
-      }
-      // Technical questions
-      else if (lowerMessage.includes('how') || lowerMessage.includes('what')) {
-        if (lowerMessage.includes('supabase')) {
-          response = "To integrate Supabase, click the green Supabase button in the top right corner. This will allow us to implement secure authentication, database storage, and AI features. Would you like me to explain more about what we can build with Supabase?";
-        } else if (lowerMessage.includes('api') || lowerMessage.includes('backend')) {
-          response = "For backend functionality, I recommend connecting to Supabase first. This will allow us to securely handle API keys and create backend services. Would you like to connect to Supabase now?";
+Want to add this to your app?`;
         } else {
-          response = "I understand you have a question about " + userMessage.toLowerCase().split(' ').slice(1).join(' ') + ". To provide the most accurate information, could you please specify what aspect you'd like to learn more about?";
+          // Input: "Show me a demo"
+          response = "I can demonstrate demos for datasets, voice input/output, or emotion recognition. Which one interests you?";
         }
       }
-      // Greetings
-      else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
-        response = "नमस्ते! I'm here to help you with AI development. You can ask me about implementing AI features, working with datasets, or building your application. What would you like to know?";
+
+      // === Quiz ===
+      else if (lowerMessage.includes('quiz') || lowerMessage.includes('question') || lowerMessage.includes('yes')) {
+        // Input: "Can you give me a quiz?"
+        response = `Quiz Time:
+
+1. Why do passengers lurch forward in a car?
+A) First Law ✅
+
+2. What does F = ma mean?
+C) Force = Mass × Acceleration ✅
+
+3. What law explains balloon motion?
+C) Third Law ✅`;
       }
-      // Gratitude
+
+      // === Newton's Laws ===
+      else if (lowerMessage.includes('newton') || lowerMessage.includes('motion') || lowerMessage.includes('laws')) {
+        // Input: "Explain Newton's Laws"
+        response = `Here's a simple breakdown of Newton's three laws of motion:
+
+1. First Law (Inertia): Object stays in current state unless acted upon  
+2. Second Law: F = m × a  
+3. Third Law: Every action has an equal and opposite reaction
+
+Want a quiz on this?`;
+      }
+
+      // === Supabase or Backend ===
+      else if (lowerMessage.includes('supabase')) {
+        // Input: "How to connect Supabase?"
+        response = `To integrate Supabase:
+1. Click the green "Supabase" button
+2. Enable Auth and Realtime
+3. Start using AI securely
+
+Need code examples?`;
+      } else if (lowerMessage.includes('api') || lowerMessage.includes('backend')) {
+        // Input: "How do I build an API?"
+        response = `For backend functionality, connect to Supabase. It'll help handle APIs securely. Want to see setup code?`;
+      }
+
+      // === General "how" or "what" ===
+      else if (lowerMessage.includes('how') || lowerMessage.includes('what')) {
+        // Input: "What is machine learning?"
+        response = `I understand you're asking about "${userMessage.trim()}". Could you clarify what aspect you'd like help with?`;
+      }
+
+      // === Greetings ===
+      else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey') || lowerMessage.includes('नमस्ते')) {
+        // Input: "Hello"
+        response = "नमस्ते! I'm here to help with AI features, dataset selection, or app implementation. What would you like to explore?";
+      }
+
+      // === Gratitude ===
       else if (lowerMessage.includes('thank')) {
-        response = "You're welcome! Feel free to ask if you need help with anything else. I'm here to assist with your AI development journey.";
+        // Input: "Thanks for your help!"
+        response = "You're welcome! Let me know if there's anything else I can assist you with.";
       }
-      // Action-oriented requests
+
+      // === Action-Oriented ===
       else if (lowerMessage.includes('add') || lowerMessage.includes('create') || lowerMessage.includes('implement')) {
-        response = "I can help you implement that feature. To ensure we build it securely and efficiently, let's break it down into steps. Would you like me to explain the recommended approach?";
+        // Input: "Help me implement login"
+        response = "I can help you implement that feature. To build it efficiently, shall I break it into steps for you?";
       }
-      // Default response encouraging specificity
+
+      // === Default fallback ===
       else {
-        response = "I understand you're interested in " + userMessage + ". To help you better, could you be more specific about what you'd like to achieve? For example, are you looking to implement a feature, learn about a concept, or solve a particular problem?";
+        // Input: "Tell me something cool"
+        response = `I understand you're interested in "${userMessage}". Could you specify what you're trying to do—build, learn, or debug something?`;
       }
-      
+
       addMessage(response, "ai", "response");
     } catch (error) {
-      addMessage("I apologize, but I encountered an error processing your request. Please try again.", "ai", "error");
+      addMessage("Oops! Something went wrong. Please try again.", "ai", "error");
     } finally {
       setIsLoading(false);
     }
