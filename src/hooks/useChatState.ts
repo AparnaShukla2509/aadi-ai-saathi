@@ -66,22 +66,38 @@ export const useChatState = () => {
       // Simulate AI processing time
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // Simple response generation based on user input
       let response = '';
+      const lowerMessage = userMessage.toLowerCase();
       
-      if (userMessage.toLowerCase().includes('hello') || userMessage.toLowerCase().includes('hi')) {
-        response = "Hello! How can I assist you today?";
-      } else if (userMessage.toLowerCase().includes('how are you')) {
-        response = "I'm doing well, thank you! How can I help you?";
-      } else if (userMessage.toLowerCase().includes('weather')) {
-        response = "I notice you're asking about weather. For real-time weather information, we'll need to connect to a weather API. Would you like me to explain how we can set that up?";
-      } else if (userMessage.toLowerCase().includes('help')) {
-        response = "I'm here to help! I can assist with various topics. What specific information are you looking for?";
-      } else if (userMessage.toLowerCase().includes('thank')) {
-        response = "You're welcome! Let me know if you need anything else.";
-      } else {
-        // Default response encouraging Supabase integration
-        response = "I understand you're looking for accurate information about this topic. To provide you with the most accurate and up-to-date answers, we should connect to Supabase and integrate with an AI service. Would you like to know how to set that up?";
+      // Topic-based responses
+      if (lowerMessage.includes('dataset') || lowerMessage.includes('data')) {
+        response = "I see you're interested in AI datasets. You can view our recommended datasets in the sidebar by clicking on 'AI Datasets'. Would you like me to explain more about a specific type of dataset?";
+      }
+      // Technical questions
+      else if (lowerMessage.includes('how') || lowerMessage.includes('what')) {
+        if (lowerMessage.includes('supabase')) {
+          response = "To integrate Supabase, click the green Supabase button in the top right corner. This will allow us to implement secure authentication, database storage, and AI features. Would you like me to explain more about what we can build with Supabase?";
+        } else if (lowerMessage.includes('api') || lowerMessage.includes('backend')) {
+          response = "For backend functionality, I recommend connecting to Supabase first. This will allow us to securely handle API keys and create backend services. Would you like to connect to Supabase now?";
+        } else {
+          response = "I understand you have a question about " + userMessage.toLowerCase().split(' ').slice(1).join(' ') + ". To provide the most accurate information, could you please specify what aspect you'd like to learn more about?";
+        }
+      }
+      // Greetings
+      else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+        response = "नमस्ते! I'm here to help you with AI development. You can ask me about implementing AI features, working with datasets, or building your application. What would you like to know?";
+      }
+      // Gratitude
+      else if (lowerMessage.includes('thank')) {
+        response = "You're welcome! Feel free to ask if you need help with anything else. I'm here to assist with your AI development journey.";
+      }
+      // Action-oriented requests
+      else if (lowerMessage.includes('add') || lowerMessage.includes('create') || lowerMessage.includes('implement')) {
+        response = "I can help you implement that feature. To ensure we build it securely and efficiently, let's break it down into steps. Would you like me to explain the recommended approach?";
+      }
+      // Default response encouraging specificity
+      else {
+        response = "I understand you're interested in " + userMessage + ". To help you better, could you be more specific about what you'd like to achieve? For example, are you looking to implement a feature, learn about a concept, or solve a particular problem?";
       }
       
       addMessage(response, "ai", "response");
