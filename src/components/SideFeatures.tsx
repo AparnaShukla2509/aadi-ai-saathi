@@ -1,8 +1,8 @@
-
-import { BrainCircuit, Image, MessageSquareText, FileType, PenTool, Languages } from "lucide-react";
+import { BrainCircuit, Image, MessageSquareText, FileType, PenTool, Languages, Database } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { DatasetInfo } from "./DatasetInfo";
 
 const features = [
   {
@@ -32,6 +32,12 @@ const features = [
     icon: <PenTool />,
     comingSoon: true,
   },
+  {
+    id: "datasets",
+    name: "AI Datasets",
+    description: "View available AI datasets",
+    icon: <Database />,
+  },
 ];
 
 export function SideFeatures() {
@@ -47,8 +53,8 @@ export function SideFeatures() {
         <LanguageSwitcher />
       </div>
       
-      <div className="flex-1 overflow-y-auto py-2">
-        <nav className="space-y-1 px-2">
+      <div className="flex-1 overflow-y-auto">
+        <nav className="space-y-1 px-2 py-2">
           {features.map((feature) => (
             <button
               key={feature.id}
@@ -78,6 +84,8 @@ export function SideFeatures() {
             </button>
           ))}
         </nav>
+        
+        {activeFeature === "datasets" && <DatasetInfo />}
       </div>
       
       <div className="border-t p-4">
