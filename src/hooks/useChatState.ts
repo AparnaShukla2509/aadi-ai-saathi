@@ -131,6 +131,50 @@ Interested in emotion AI capabilities?`;
           response = "I can demonstrate demos for datasets, voice processing, or emotion recognition. Try asking about a specific demo type!";
         }
       }
+      // Physics education responses
+      else if (lowerMessage.includes('newton') || lowerMessage.includes('law') || lowerMessage.includes('motion')) {
+        response = `Of course! Here's a simple breakdown of Newton's three laws of motion:
+
+1. **First Law (Law of Inertia):**
+An object at rest stays at rest, and an object in motion stays in motion at a constant velocity, unless acted upon by an external force.
+*Example:* A soccer ball won't move until you kick it.
+
+2. **Second Law (F = ma):**
+The force acting on an object is equal to its mass times its acceleration.
+*Formula:* F = m × a
+*Example:* The harder you push a cart (more force), the faster it accelerates.
+
+3. **Third Law (Action–Reaction):**
+For every action, there is an equal and opposite reaction.
+*Example:* When you jump off a boat, the boat moves backward.
+
+Want a quiz or practice questions next?`;
+      }
+      // Quiz responses
+      else if (lowerMessage.includes('quiz') || lowerMessage.includes('question') || lowerMessage.includes('yes')) {
+        response = `Sure! Here are three multiple-choice questions:
+
+**1. Which of Newton's laws explains why passengers lurch forward in a car when it stops suddenly?**
+A) First Law
+B) Second Law
+C) Third Law
+D) Law of Gravity
+**Answer:** A) First Law
+
+**2. What does F = ma represent?**
+A) Force equals mass divided by acceleration
+B) Force equals motion times area
+C) Force equals mass times acceleration
+D) Friction equals motion minus area
+**Answer:** C) Force equals mass times acceleration
+
+**3. If a balloon is released and it flies around the room, which law is this an example of?**
+A) First Law
+B) Second Law
+C) Third Law
+D) Law of Momentum
+**Answer:** C) Third Law`;
+      }
       // Topic-based responses
       else if (lowerMessage.includes('dataset') || lowerMessage.includes('data')) {
         response = "I see you're interested in AI datasets. You can view our recommended datasets in the sidebar by clicking on 'AI Datasets'. Would you like me to explain more about a specific type of dataset?";
