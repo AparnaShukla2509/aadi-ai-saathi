@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 
 export interface Message {
@@ -69,8 +68,71 @@ export const useChatState = () => {
       let response = '';
       const lowerMessage = userMessage.toLowerCase();
       
+      // Demo-specific responses
+      if (lowerMessage.includes('demo')) {
+        if (lowerMessage.includes('dataset')) {
+          response = `Here's a demo of our AI datasets feature:
+
+📊 Dataset Demo:
+Input: "List chat datasets"
+Output: 
+1. OpenAssistant/oasst1 (Best for GPT-like conversations)
+   - Multi-turn dialogues
+   - Instruction-tuned
+   - Crowd-sourced quality
+
+2. DailyDialog (Alternative)
+   - Everyday conversation scenarios
+   - Emotional tone analysis
+
+Would you like me to elaborate on how these datasets can be used in AI applications?`;
+        } 
+        else if (lowerMessage.includes('voice')) {
+          response = `🎙️ Voice Input/Output Demo:
+Input Languages: English, Hindi
+Best Datasets: 
+- Speech-to-Text: Common Voice (Mozilla)
+- Text-to-Speech: LJSpeech
+
+Sample Conversion:
+✅ English: "Hello, how are you?"
+📢 Hindi: "नमस्ते, आप कैसे हैं?"
+
+Accuracy: ~90% for clear pronunciations
+Supported Accents: Multiple Indian English and Hindi variants
+
+Would you like to explore voice AI integration techniques?`;
+        }
+        else if (lowerMessage.includes('emotion')) {
+          response = `😶‍🌫️ Emotion Recognition Demo:
+Supported Detection Methods:
+1. Facial Expression (Image)
+   Dataset: RAVDESS/FER-2013
+   Detectable Emotions: 
+   - Happy 😊
+   - Sad 😢
+   - Angry 😠
+   - Surprise 😮
+
+2. Voice Tone Analysis
+   Dataset: RAVDESS
+   Emotional States:
+   - Calm
+   - Excited
+   - Neutral
+   - Frustrated
+
+Example Input: [Hypothetical voice/image analysis]
+Accuracy: 85-92% depending on context
+
+Interested in emotion AI capabilities?`;
+        }
+        else {
+          response = "I can demonstrate demos for datasets, voice processing, or emotion recognition. Try asking about a specific demo type!";
+        }
+      }
       // Topic-based responses
-      if (lowerMessage.includes('dataset') || lowerMessage.includes('data')) {
+      else if (lowerMessage.includes('dataset') || lowerMessage.includes('data')) {
         response = "I see you're interested in AI datasets. You can view our recommended datasets in the sidebar by clicking on 'AI Datasets'. Would you like me to explain more about a specific type of dataset?";
       }
       // Technical questions
